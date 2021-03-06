@@ -208,13 +208,13 @@ async function handle(event){
     var innerFoodDiv = document.createElement("div");
     innerFoodDiv.setAttribute("class", "icon-box");
     //all restaurant elements
-    var paragraph = document.createElement("h3");
-    paragraph.setAttribute("class", "title");
-    paragraph.innerHTML = obj[i].poi.name;
+    //var paragraph = document.createElement("h3");
+    //paragraph.setAttribute("class", "title");
+    //paragraph.innerHTML = obj[i].poi.name;
     var site = document.createElement("h5");
     var aTag = document.createElement('a');
     aTag.setAttribute('href', obj[i].poi.url);
-    aTag.innerText = "Site";
+    aTag.innerText = obj[i].poi.name;
     site.appendChild(aTag);
     var phone = document.createElement("h4");
     phone.setAttribute("class", "description");
@@ -222,7 +222,7 @@ async function handle(event){
     var address = document.createElement("p");
     address.setAttribute("class", "description");
     address.innerHTML = obj[i].address.freeformAddress;
-    innerFoodDiv.appendChild(paragraph);
+    //innerFoodDiv.appendChild(paragraph);
     innerFoodDiv.appendChild(site);
     innerFoodDiv.appendChild(phone);
     innerFoodDiv.append(address);
