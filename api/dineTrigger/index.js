@@ -17,8 +17,8 @@ module.exports = async function (context, req) {
     // midpoint lat lon (geolib) -> centerCoords 
     //call azure maps for restaurants
 
-    var zip1 = '60504';
-    var zip2 = '60601';
+    var zip1 = body.zip1;
+    var zip2 = body.zip2;
 
     var zip1Response = usZips[zip1];
     var zip2Response = usZips[zip2];
@@ -32,7 +32,7 @@ module.exports = async function (context, req) {
     //var lat= 47.620525;
     //var lon= -122.349274;
 
-    var cuisine = "italian";
+    var cuisine = body.cuisine;
 
     var testResult = await analyzeCoords(centerCoords["latitude"], centerCoords["longitude"], cuisine);
     
