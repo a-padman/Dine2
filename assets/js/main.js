@@ -165,6 +165,7 @@ async function handle(event){
 
 
   var functionUrl = "https://bc-finalproject.azurewebsites.net/api/dineTrigger?code=8a1YBCP4EKDWev2UCyaZXHBOY/s5Ezm9kzc3pdxCh1/zFPQZliO69w=="
+  //var functionUrl = "/api/dineTrigger";
   const resp = await fetch (functionUrl, {
       method: 'POST',
       body:JSON.stringify({zip1, zip2, cuisine}),
@@ -213,7 +214,13 @@ async function handle(event){
     //paragraph.innerHTML = obj[i].poi.name;
     var site = document.createElement("h5");
     var aTag = document.createElement('a');
-    aTag.setAttribute('href', obj[i].poi.url);
+    var myWebsite = obj[i].poi.url;
+    //TO DO: check if myWebsite exists first 
+    if(!myWebsite.startsWith("http")){
+      myWebsite = "https://" + myWebsite;
+    }
+    aTag.setAttribute('href', myWebsite);
+
     aTag.innerText = obj[i].poi.name;
     site.appendChild(aTag);
     var phone = document.createElement("h4");
