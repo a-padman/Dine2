@@ -8,7 +8,7 @@
 
 Hello! My name is Anita Padman, and I'm currently a junior studying Computer Science at the University of Illinois at Chicago!  When I'm not doing school work, my favorite hobbies include golfing, cooking, and painting (I've been doing a lot of paint alongs on Zoom during lockdown).
 
-<img src="C:\Users\User\Downloads\IMG_4767 (1).JPG" style="zoom:20%;" />
+<img src = "assets/img/profilePic.jpg" height= "500">
 
 ​	I'm a HUGE foodie. One of my favorite social activities has always been going out to eat with friends. Unfortunately, this activity often comes with the huge struggle of deciding on a restaurant to visit. There are a couple factors I always take into account when choosing a restaurant: 
 
@@ -16,7 +16,7 @@ Hello! My name is Anita Padman, and I'm currently a junior studying Computer Sci
 
 2. Cuisine – I crave Sushi way more often than I would like to admit.
 
-3. That is pretty much it…I am not that picky when it comes to food 😊
+3. That's pretty much it…I am not that picky when it comes to food 😊
 
    
 
@@ -24,8 +24,8 @@ Hello! My name is Anita Padman, and I'm currently a junior studying Computer Sci
 
 ​	Dine the Distance is a web application that takes the zip location locations between two points (you and a friend), a restaurant cuisine, and delivers restaurant recommendations at a neutral midpoint location. Each restaurant recommendation is requested from the Azure Maps API and  includes a link to the location’s website, menu, phone number, and address. Dine the Distance provides food locations that are convenient to you and you friends whilst catering to cuisine and taste preferences. It was created to help avoid situations where you and your friends cannot decide on a place to meet up and grab some food.
 
-<img src="C:\Users\User\Desktop\Severless 2021\Flowchart.png" style="zoom:98%;" />
 
+<img src = "assets/img/flowChart.PNG">
 
 
 Now we'll go into the steps I took to build this project the necessary details to replicate it in the future:
