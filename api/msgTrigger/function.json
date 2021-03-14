@@ -1,0 +1,37 @@
+{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "get",
+        "post"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    },
+    {
+      "type": "twilioSms",
+      "name": "message",
+      "accountSidSetting": "TwilioAccountSid",
+      "authTokenSetting": "TwilioAuthToken",
+      "from": "+17402674286",
+      "direction": "out",
+      "body": "Azure Functions Testing"
+    },
+    {
+      "type": "twilioSms",
+      "name": "message2",
+      "accountSidSetting": "TwilioAccountSid",
+      "authTokenSetting": "TwilioAuthToken",
+      "from": "+17402674286",
+      "direction": "out",
+      "body": "Azure Functions Testing"
+    }
+  ]
+}
