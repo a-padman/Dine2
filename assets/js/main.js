@@ -178,24 +178,7 @@ async function handle(event){
   var newData = JSON.stringify(data.results);
   var obj = JSON.parse(newData);
 
-  //obj[i].poi.name restaurant name change index 
-  //console.log(obj.length);
-  //obj[i].address.freeformAddress
-  //obj[i].poi.phone
-  //obj[i].poi.url
-
-  // var listDiv = document.getElementById('printRestaurant');
-  // var ul=document.createElement('ul');
-  // for (var i = 0; i < obj.length; ++i) {
-  //   var li=document.createElement('li');
-  //   li.innerHTML = obj[i].poi.name;   // Use innerHTML to set the text
-  //   ul.appendChild(li);                                 
-  // }
-  // listDiv.appendChild(ul);    
-  // Note here
-  //add this all to a list 
-
-  $('#resultsDiv').empty(); //need to results every time the user searches!
+  $('#resultsDiv').empty(); //need to clear results every time the user searches!
   
   document.getElementById("cuisineName").innerHTML="Cuisine: " + cuisine;
 
@@ -208,35 +191,34 @@ async function handle(event){
     //inner div
     var innerFoodDiv = document.createElement("div");
     innerFoodDiv.setAttribute("class", "icon-box");
-    //all restaurant elements
-    //var paragraph = document.createElement("h3");
-    //paragraph.setAttribute("class", "title");
-    //paragraph.innerHTML = obj[i].poi.name;
-    var site = document.createElement("h5");
-    var aTag = document.createElement('a');
-    var myWebsite = obj[i].poi.url;
-    //TO DO: check if myWebsite exists first 
-    if(!myWebsite.startsWith("http")){
-      myWebsite = "https://" + myWebsite;
-    }
-    aTag.setAttribute('href', myWebsite);
 
-    aTag.innerText = obj[i].poi.name;
-    site.appendChild(aTag);
+    var site = document.createElement("h5");
+    var myWebsite = obj[i].poi.url;
+    if (myWebsite==undefined){
+      site.innerHTML=obj[i].poi.name;
+    }
+    else{
+      if(!myWebsite.startsWith("http")){
+        myWebsite = "https://" + myWebsite;
+      }
+      var aTag = document.createElement('a');
+      aTag.setAttribute('href', myWebsite);
+      aTag.innerText = obj[i].poi.name;
+      site.appendChild(aTag);
+    }
+
     var phone = document.createElement("h4");
     phone.setAttribute("class", "description");
     phone.innerHTML = obj[i].poi.phone;
     var address = document.createElement("p");
     address.setAttribute("class", "description");
     address.innerHTML = obj[i].address.freeformAddress;
-    //innerFoodDiv.appendChild(paragraph);
     innerFoodDiv.appendChild(site);
     innerFoodDiv.appendChild(phone);
     innerFoodDiv.append(address);
 
     myOuterFoodDiv.appendChild(innerFoodDiv);
     document.getElementById('resultsDiv').appendChild(myOuterFoodDiv);
-    $('#printRestaurant').html("")
-    //console.log(document.getElementById('resultsDiv'));     
+    $('#printRestaurant').html("");
  }
 }
