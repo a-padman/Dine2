@@ -151,14 +151,21 @@ window.addEventListener('load', () => {
   });
 });
 
-async function sendAddress(phone1, phone2, address){
-  console.log(phone1);
-  console.log(phone2);
-  console.log(address);
+//trigger msgTrigger to send directions to phone numbers from user input
+async function sendAddress(phone1, phone2, address, name){
+  var functionUrl = "/api/msgTrigger";
+  const resp = await fetch (functionUrl, {
+    method: 'POST',
+    body:JSON.stringify({phone1, phone2, address, name}),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  });
+
 }
 
 async function handle(event){
-  console.log ("submitting form...");
+  console.log ("submitting form..."); //debug
   $('#printRestaurant').html("Loading...")
   event.preventDefault(); //disable reload 
 
@@ -167,8 +174,6 @@ async function handle(event){
   var zip1=payload.get('zip1');
   var zip2=payload.get('zip2');
   var cuisine=payload.get('cuisine');
-  // console.log(payload.get('phone1'));
-  // console.log(payload.get('phone2'));
 
 
   var functionUrl = "https://bc-finalproject.azurewebsites.net/api/dineTrigger?code=8a1YBCP4EKDWev2UCyaZXHBOY/s5Ezm9kzc3pdxCh1/zFPQZliO69w=="
@@ -180,30 +185,32 @@ async function handle(event){
         'Content-Type': 'application/json'
       },
   });
-
+  //await restaurant data from Azure Maps
   var data = await resp.json();
   var newData = JSON.stringify(data.results);
   var obj = JSON.parse(newData);
 
-  $('#resultsDiv').empty(); //need to clear results every time the user searches!
+  $('#resultsDiv').empty(); //need to clear results every time the user searches
   
   document.getElementById("cuisineName").innerHTML="Cuisine: " + cuisine;
 
- //inner div obj.length
+  //populate results in two rows of four elements
  for (var i=0; i< 8; ++i){
     var myOuterFoodDiv = document.createElement("div");
     myOuterFoodDiv.setAttribute("class", "col-md-6 col-lg-3 d-flex align-items-stretch");
     myOuterFoodDiv.setAttribute("data-aos", "zoom-in");
 
-    //inner div
+
     var innerFoodDiv = document.createElement("div");
     innerFoodDiv.setAttribute("class", "icon-box");
 
     var site = document.createElement("h5");
     var myWebsite = obj[i].poi.url;
+    //check if website exists 
     if (myWebsite==undefined){
       site.innerHTML=obj[i].poi.name;
     }
+    //ensure website begins with https
     else{
       if(!myWebsite.startsWith("http")){
         myWebsite = "https://" + myWebsite;
@@ -226,9 +233,9 @@ async function handle(event){
 
     var selectBtn = document.createElement("BUTTON");
     selectBtn.setAttribute("class", "btn btn-outline-success");
-    selectBtn.innerHTML="Select";
-    selectBtn.value=obj[i].address.freeformAddress;
-    selectBtn.addEventListener("click", sendAddress.bind(null, payload.get('phone1'), payload.get('phone2'), selectBtn.value));
+    selectBtn.innerHTML="Send Directions!";
+    //when the user selects a restaurant, send form values
+    selectBtn.addEventListener("click", sendAddress.bind(null, payload.get('phone1'), payload.get('phone2'), obj[i].address.freeformAddress, obj[i].poi.name));
     innerFoodDiv.append(selectBtn);
 
     myOuterFoodDiv.appendChild(innerFoodDiv);
@@ -236,5 +243,3 @@ async function handle(event){
     $('#printRestaurant').html("");
  }
 }
-
-//TO DO: add buttons to each restaurant and call the async function to send the phone numbers!

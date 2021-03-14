@@ -1,16 +1,12 @@
 var fetch = require("node-fetch");
 const geolib = require('geolib');
 const usZips = require('us-zips');
-// var multipart = require("parse-multipart");
+
 
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
-
-    // var boundary = multipart.getBoundary(req.headers['content-type']);
     
     var body = req.body;
-  
-    // var parts = multipart.Parse(body, boundary);
 
     //zip code 1 -> latitude and longitude (us-zips) -> zip1Response
     //zip code 2 -> latitude and longitude (us-zips) -> zip2Response
@@ -28,10 +24,6 @@ module.exports = async function (context, req) {
         { latitude: zip2Response["latitude"], longitude: zip2Response["longitude"] },
     ]);
 
-    //seattle space needle test coords
-    //var lat= 47.620525;
-    //var lon= -122.349274;
-
     var cuisine = body.cuisine;
 
     var testResult = await analyzeCoords(centerCoords["latitude"], centerCoords["longitude"], cuisine);
@@ -45,9 +37,10 @@ module.exports = async function (context, req) {
     context.done(); 
 }
 
-async function analyzeCoords(latitude, longitude, cuisine){ //add lat and long params
+//send central coordinates to Azure Maps
+async function analyzeCoords(latitude, longitude, cuisine){ 
     
-    const subscriptionKey = process.env['map-key']; //add to function app config before pushing to github
+    const subscriptionKey = process.env['map-key']; 
     const uriBase = 'https://atlas.microsoft.com' + '/search/fuzzy/json';
 
     let params = new URLSearchParams({
@@ -64,15 +57,11 @@ async function analyzeCoords(latitude, longitude, cuisine){ //add lat and long p
     //request header was not required
     let resp = await fetch(uriBase + '?' + params.toString(), {
         method: 'GET',  
-        // headers: {
-        //     '<HEADER NAME>': '<HEADER VALUE>' 
-        // }
     })
 
     let data = await resp.json();
     
     return data; 
 }
-// Questions: how to connect user input from front-end to first async function 
 
 
