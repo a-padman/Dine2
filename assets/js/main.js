@@ -151,6 +151,11 @@ window.addEventListener('load', () => {
   });
 });
 
+async function sendAddress(phone1, phone2, address){
+  console.log(phone1);
+  console.log(phone2);
+  console.log(address);
+}
 
 async function handle(event){
   console.log ("submitting form...");
@@ -162,6 +167,8 @@ async function handle(event){
   var zip1=payload.get('zip1');
   var zip2=payload.get('zip2');
   var cuisine=payload.get('cuisine');
+  // console.log(payload.get('phone1'));
+  // console.log(payload.get('phone2'));
 
 
   var functionUrl = "https://bc-finalproject.azurewebsites.net/api/dineTrigger?code=8a1YBCP4EKDWev2UCyaZXHBOY/s5Ezm9kzc3pdxCh1/zFPQZliO69w=="
@@ -217,8 +224,17 @@ async function handle(event){
     innerFoodDiv.appendChild(phone);
     innerFoodDiv.append(address);
 
+    var selectBtn = document.createElement("BUTTON");
+    selectBtn.setAttribute("class", "btn btn-outline-success");
+    selectBtn.innerHTML="Select";
+    selectBtn.value=obj[i].address.freeformAddress;
+    selectBtn.addEventListener("click", sendAddress.bind(null, payload.get('phone1'), payload.get('phone2'), selectBtn.value));
+    innerFoodDiv.append(selectBtn);
+
     myOuterFoodDiv.appendChild(innerFoodDiv);
     document.getElementById('resultsDiv').appendChild(myOuterFoodDiv);
     $('#printRestaurant').html("");
  }
 }
+
+//TO DO: add buttons to each restaurant and call the async function to send the phone numbers!
