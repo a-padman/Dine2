@@ -40,7 +40,7 @@ module.exports = async function (context, req) {
 //send central coordinates to Azure Maps
 async function analyzeCoords(latitude, longitude, cuisine){ 
     
-    const subscriptionKey = process.env['map-key']; 
+    const subscriptionKey = process.env['mapKey']; 
     const uriBase = 'https://atlas.microsoft.com' + '/search/fuzzy/json';
 
     let params = new URLSearchParams({
