@@ -23,7 +23,7 @@ That's pretty much it. I'm generally not that picky 😊
 
 ​	Dine the Distance is a web application that takes the zip location locations between two points (you and a friend), a restaurant cuisine, and delivers restaurant recommendations at a neutral midpoint location. Each restaurant recommendation is requested from the Azure Maps API and  includes a link to the location’s website, menu, phone number, and address. Dine the Distance provides food locations that are convenient whilst filtering results by cuisine preferences. It was created to help avoid situations where you and your friends cannot decide on a place to meet up and grab some food.
 
-<img src = "assets/img/flowchartFinal.PNG">
+<img src = "assets/img/flowChart.png">
 
 
 Now we'll go into the steps I took to build this project the necessary details to replicate it in the future:
