@@ -1,12 +1,12 @@
-# Dine the Distance
+# Find restaurant options halfway between you and a friend with Dine the Distance!
 
-### Find restaurant options halfway between you and a friend!
+<img src = "assets/img/coverPic.PNG" height= "300">
 
 ### About Me 👩‍💻
 
 Hi! My name is Anita, and I'm currently a junior studying Computer Science at the University of Illinois at Chicago. When I'm not doing school work, my favorite hobbies include biking, cooking, and painting (I've been doing a lot of online paint alongs during lockdown).
 
-<img src = "assets/img/profilePic.jpg" height= "500">
+<img src = "assets/img/profilePic.jpg" height= "450">
 
 ​ I'm a HUGE foodie. One of my favorite social activities has always been going out to eat with friends. I thoroughly miss in-person classes in Chicago because it gave me an excuse to try out new places for takeout nearly every week. If you're ever in the city, I 10/10 recommend heading to [Brightwok Kitchen](https://brightwok.com/)!
 
@@ -42,7 +42,7 @@ Now let's go into the steps I took to build this project, so you can replicate i
 
 ### Frontend ✨
 
-##### 1. Create a form for user input
+### 1. Create a form for user input
 
 ```html
 <form onsubmit="handle(event)" enctype="multipart/form-data">
@@ -71,7 +71,7 @@ Now let's go into the steps I took to build this project, so you can replicate i
 - Two inputs for two user phone numbers
 - A submit button to send the form data to our HTTP trigger (called dineTrigger)
 
-##### 2. Send user's form data to our HTTP trigger (dineTrigger)
+### 2. Send user's form data to our HTTP trigger (dineTrigger)
 
 ```javascript
 var functionUrl = "/api/dineTrigger";
@@ -92,12 +92,12 @@ var obj = JSON.parse(newData);
 
 ### Backend ⚙️
 
-#### `HTTP Trigger 1 (dineTrigger)`
+### `HTTP Trigger 1 (dineTrigger)`
 
 Our first HTTP trigger will **send our user zip code and cuisine information to Azure Maps** to retrieve restaurant information.\
 The following code snippets will need to go into the index.js file of our HTTP dineTrigger function.
 
-##### 1. Convert zip codes into coordinates and find the midpoint
+### 1. Convert zip codes into coordinates and find the midpoint
 
 ```javascript
 module.exports = async function (context, req) {
@@ -141,7 +141,7 @@ module.exports = async function (context, req) {
 
 ​ Before we can request restaurant data, we will need to **find the midpoint between the two zip code locations** entered by the user. This is where the us-zips and geolib node packages come in handy! First, **convert the user zip code locations into JSON objects** with their respective latitude/longitude coordinates using the usZips function. Next, we will use these coordinates to find the midpoint via geolib.getCenterOfBounds. Lastly, pass in the center latitude, center longitude, and preferred user cuisine into another function (analyzeCoords) to send this data to the Azure Maps API.
 
-##### 2. Request Restaurant Data
+### 2. Request Restaurant Data
 
 ```javascript
 async function analyzeCoords(latitude, longitude, cuisine) {
@@ -173,11 +173,11 @@ Refer to the Free Form Search API documentation to add or modify URL parameters 
 
 https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchfuzzy
 
-#### `HTTP Trigger 2 (msgTrigger)`
+### `HTTP Trigger 2 (msgTrigger)`
 
 Our second HTTP trigger will **send users text message directions** with information about the restaurant they select.
 
-##### 1. Add Twilio Bindings to msgTrigger's function.json file
+### 1. Add Twilio Bindings to msgTrigger's function.json file
 
 ```
 {
@@ -193,7 +193,7 @@ Our second HTTP trigger will **send users text message directions** with informa
 
 ​ You'll need to [create a Twilio Account](https://www.twilio.com/try-twilio) in order to populate your [Twilio resource binding](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-twilio?tabs=javascript) with the proper **accountSID, authToken, and Twilio phone number**. In this project, I created two bindings in order to send a separate text to each of the two user's who will need the restaurant address. I named the first binding "message" and the second binding "message2" (_SUPER_ original names, I know).
 
-##### 2. Send user's restaurant choice to the HTTP trigger (msgTrigger)
+### 2. Send user's restaurant choice to the HTTP trigger (msgTrigger)
 
 ```javascript
 async function sendAddress(phone1, phone2, address, name) {
@@ -210,7 +210,7 @@ async function sendAddress(phone1, phone2, address, name) {
 
 ​ Similar to how we sent an object containing form information to dineTrigger, we'll need to make **another POST request in our main.js file** to send an object containing the user's phone numbers and restaurant location to our new HTTP trigger.
 
-##### 3. Text both users the address of the restaurant they select
+### 3. Text both users the address of the restaurant they select
 
 ```javascript
 module.exports = async function (context, req) {
