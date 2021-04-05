@@ -1,4 +1,6 @@
-# Find restaurant options halfway between you and a friend with Dine the Distance!
+# Dine the Distance
+
+### Find restaurant options halfway between you and a friend!
 
 <img src = "assets/img/coverPic.PNG" height= "300">
 
@@ -8,7 +10,7 @@ Hi! My name is Anita, and I'm currently a junior studying Computer Science at th
 
 <img src = "assets/img/profilePic.jpg" height= "450">
 
-​ I'm a HUGE foodie. One of my favorite social activities has always been going out to eat with friends. I thoroughly miss in-person classes in Chicago because it gave me an excuse to try out new places for takeout nearly every week. If you're ever in the city, I 10/10 recommend heading to [Brightwok Kitchen](https://brightwok.com/)!
+​I'm a HUGE foodie. One of my favorite social activities has always been going out to eat with friends. I thoroughly miss in-person classes in Chicago because it gave me an excuse to try out new places for takeout nearly every week. If you're ever in the city, I 10/10 recommend heading to [Brightwok Kitchen](https://brightwok.com/)!
 
 **Choosing a place to eat has always been a struggle of mine**, and there are a couple factors I always take into account:
 
@@ -65,7 +67,7 @@ Now let's go into the steps I took to build this project, so you can replicate i
 </form>
 ```
 
-​ To capture the user’s location, contact information, and preferred cuisine information, you will need to **create a form in an index.html file**. The main elements you will definitely need in this form include:
+​To capture the user’s location, contact information, and preferred cuisine information, you will need to **create a form in an index.html file**. The main elements you will definitely need in this form include:
 
 - Two inputs for two user zip code locations
 - Two inputs for two user phone numbers
@@ -94,7 +96,7 @@ var obj = JSON.parse(newData);
 
 ### `HTTP Trigger 1 (dineTrigger)`
 
-Our first HTTP trigger will **send our user zip code and cuisine information to Azure Maps** to retrieve restaurant information.\
+Our first HTTP trigger will **send our user zip code and cuisine information to Azure Maps** to retrieve restaurant information.
 The following code snippets will need to go into the index.js file of our HTTP dineTrigger function.
 
 ### 1. Convert zip codes into coordinates and find the midpoint
@@ -139,7 +141,7 @@ module.exports = async function (context, req) {
 };
 ```
 
-​ Before we can request restaurant data, we will need to **find the midpoint between the two zip code locations** entered by the user. This is where the us-zips and geolib node packages come in handy! First, **convert the user zip code locations into JSON objects** with their respective latitude/longitude coordinates using the usZips function. Next, we will use these coordinates to find the midpoint via geolib.getCenterOfBounds. Lastly, pass in the center latitude, center longitude, and preferred user cuisine into another function (analyzeCoords) to send this data to the Azure Maps API.
+​Before we can request restaurant data, we will need to **find the midpoint between the two zip code locations** entered by the user. This is where the us-zips and geolib node packages come in handy! First, **convert the user zip code locations into JSON objects** with their respective latitude/longitude coordinates using the usZips function. Next, we will use these coordinates to find the midpoint via geolib.getCenterOfBounds. Lastly, pass in the center latitude, center longitude, and preferred user cuisine into another function (analyzeCoords) to send this data to the Azure Maps API.
 
 ### 2. Request Restaurant Data
 
@@ -167,7 +169,7 @@ async function analyzeCoords(latitude, longitude, cuisine) {
 }
 ```
 
-​ Let us take a closer look at the **analyzeCoords (latitude, longitude, cuisine)** function. In this function, you will want to populate your URL search parameters and perform a GET request for your response data that we will parse through for the user to see on the frontend.
+​Let us take a closer look at the **analyzeCoords (latitude, longitude, cuisine)** function. In this function, you will want to populate your URL search parameters and perform a GET request for your response data that we will parse through for the user to see on the frontend.
 
 Refer to the Free Form Search API documentation to add or modify URL parameters as you see fit:
 
@@ -208,7 +210,7 @@ async function sendAddress(phone1, phone2, address, name) {
 }
 ```
 
-​ Similar to how we sent an object containing form information to dineTrigger, we'll need to make **another POST request in our main.js file** to send an object containing the user's phone numbers and restaurant location to our new HTTP trigger.
+​Similar to how we sent an object containing form information to dineTrigger, we'll need to make **another POST request in our main.js file** to send an object containing the user's phone numbers and restaurant location to our new HTTP trigger.
 
 ### 3. Text both users the address of the restaurant they select
 
@@ -239,7 +241,7 @@ module.exports = async function (context, req) {
 };
 ```
 
-​ Finally! It's time to **send the users the address of the restaurant they plan to go** to inside of msgTrigger's index.js file. After defining the body of the received POST request, we can formulate our message into a variable (txtMessage) and specify the body and phone numbers we want to contact in context.bindings.message.
+​Finally! It's time to **send the users the address of the restaurant they plan to go** to inside of msgTrigger's index.js file. After defining the body of the received POST request, we can formulate our message into a variable (txtMessage) and specify the body and phone numbers we want to contact in context.bindings.message.
 
 ### Deploying the Static Web App 🚀
 
@@ -251,12 +253,12 @@ Additionally, feel free to take a look at my [Github repo](https://github.com/a-
 
 ### So what's next? 🔮
 
-​ Dine the Distance has some room for additional features. The next course of action involves presenting each user with a distance tracker to help them visualize how far they will need to drive to each recommended restaurant.
+​Dine the Distance has some room for additional features. The next course of action involves presenting each user with a distance tracker to help them visualize how far they will need to drive to each recommended restaurant.
 
-​ Until then....with Dine the Distance, you and your friends can stop aimlessly scrolling on online for restaurants nearby and instead utilize this all-in-one functional web app next time you want to grab a bite!
+Until then....with Dine the Distance, you and your friends can stop aimlessly scrolling on online for restaurants nearby and instead utilize this all-in-one functional web app next time you want to grab a bite!
 
 ### Special Mentions 🤗
 
-​ This project was created as part of the [Bit Project](https://bitproject.org/course/serverless) Serverless BitCamp cohosted by Microsoft. I'd like to thank my mentor Marie Hoeger for answering all my questions and making this project a great learning experience! Additionally, thanks to Emily, Evelyn, and Julia for coordinating our cohort activities and laying out clear expectations throughout the Bit Camp.
+​This project was created as part of the [Bit Project](https://bitproject.org/course/serverless) Serverless BitCamp cohosted by Microsoft. I'd like to thank my mentor Marie Hoeger for answering all my questions and making this project a great learning experience! Additionally, thanks to Emily, Evelyn, and Julia for coordinating our cohort activities and laying out clear expectations throughout the Bit Camp.
 
 Lastly, the name credit for this app goes out to my dear friend Divya Francis 💖
