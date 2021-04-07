@@ -251,6 +251,14 @@ module.exports = async function (context, req) {
 Here's a link to try out my version: https://calm-moss-0d1a6c110.azurestaticapps.net/ \
 Additionally, feel free to take a look at my [Github repo](https://github.com/a-padman/Dine2)!
 
+<!-- title page gif -->
+
+![](https://media.giphy.com/media/xdXSzWCkqx4OR8Vbgh/giphy.gif)
+
+<!-- restaurant result gif -->
+
+![](https://media.giphy.com/media/pJarSrYmrSSqqqYDz6/giphy.gif)
+
 ### So what's next? 🔮
 
 ​Dine the Distance has some room for additional features. The next course of action involves presenting each user with a distance tracker to help them visualize how far they will need to drive to each recommended restaurant.
