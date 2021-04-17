@@ -90,7 +90,7 @@ var newData = JSON.stringify(data.results);
 var obj = JSON.parse(newData);
 ```
 
-​ **Create a JavaScript file** (mine is called main.js) in order to send an object containing the user zip code and cuisine information. Next, [await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await) a JSON response body from the dineTrigger function (that will return restaurant information) that can be parsed to populate the frontend.
+​ **Create a JavaScript file** (mine is called main.js) in order to send an object containing the user zip code and cuisine information ({zip1, zip2, cuisine}) utilizing a [POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) request. Next, [await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await) a JSON response body from the dineTrigger function (that will return restaurant information) that can be [parsed](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse) to populate the frontend. Whenever we receive data from a web server it is always a string, so by using **JSON.parse** we can turn this data into a Javascript object which will be much easier to work with when we want to access our restaurant data.
 
 ### Backend ⚙️
 
@@ -141,7 +141,30 @@ module.exports = async function (context, req) {
 };
 ```
 
-​Before we can request restaurant data, we will need to **find the midpoint between the two zip code locations** entered by the user. This is where the us-zips and geolib node packages come in handy! First, **convert the user zip code locations into JSON objects** with their respective latitude/longitude coordinates using the usZips function. Next, we will use these coordinates to find the midpoint via geolib.getCenterOfBounds. Lastly, pass in the center latitude, center longitude, and preferred user cuisine into another function (analyzeCoords) to send this data to the Azure Maps API.
+​Before we can request restaurant data, we will need to **find the midpoint between the two zip code locations** entered by the user. This is where the us-zips and geolib node packages come in handy! First, **convert the user zip code locations into JSON objects** with their respective latitude/longitude coordinates using the usZips function.
+If we ran the usZips function on zip code '54301', the JSON object would look something like:
+
+```javascript
+// Shape
+{
+    '54301': {
+        latitude: 44.480778,
+        longitude: -88.016063
+    }
+}
+```
+
+Next, we will use the coordinates we've just retrieved from usZips to find the midpoint via geolib.getCenterOfBounds. The getCenterOfBounds function takes in an array of coordinates and returns an object containing the central latitude and longitude:
+
+```javascript
+// Shape
+{
+    "latitude": centerLat,
+    "longitude": centerLon
+}
+```
+
+Now that we've calculated the midpoint, the last step is to pass in the center latitude, center longitude, and preferred user cuisine into another function (analyzeCoords), which we will use to send this data to the Azure Maps API for restaurant recommendations.
 
 ### 2. Request Restaurant Data
 
@@ -169,7 +192,7 @@ async function analyzeCoords(latitude, longitude, cuisine) {
 }
 ```
 
-​Let us take a closer look at the **analyzeCoords (latitude, longitude, cuisine)** function. In this function, you will want to populate your URL search parameters and perform a GET request for your response data that we will parse through for the user to see on the frontend.
+​Let us take a closer look at the **analyzeCoords (latitude, longitude, cuisine)** function. In this function, you will want to populate your URL search parameters to specify the exact data we want. In my code, I specify that I want a restaurant with the user specified cuisine located near the central latitude and longitude. Lastly, I specify that I only want Azure Maps to give me back 10 restaurant results (limit). After creating the parameters, you'll want to perform a [GET](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET) request for your response data.
 
 Refer to the Free Form Search API documentation to add or modify URL parameters as you see fit:
 
@@ -193,7 +216,7 @@ Our second HTTP trigger will **send users text message directions** with informa
 }
 ```
 
-​ You'll need to [create a Twilio Account](https://www.twilio.com/try-twilio) in order to populate your [Twilio resource binding](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-twilio?tabs=javascript) with the proper **accountSID, authToken, and Twilio phone number**. In this project, I created two bindings in order to send a separate text to each of the two user's who will need the restaurant address. I named the first binding "message" and the second binding "message2" (_SUPER_ original names, I know).
+​ You'll need to [create a Twilio Account](https://www.twilio.com/try-twilio) in order to populate your [Twilio resource binding](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-twilio?tabs=javascript) with the proper **accountSID, authToken, and Twilio phone number** for validation purposes. In this project, I created two bindings in order to send a separate text to each of the two user's who will need the restaurant address. I named the first binding "message" and the second binding "message2" (_SUPER_ original names, I know).
 
 ### 2. Send user's restaurant choice to the HTTP trigger (msgTrigger)
 
@@ -210,7 +233,7 @@ async function sendAddress(phone1, phone2, address, name) {
 }
 ```
 
-​Similar to how we sent an object containing form information to dineTrigger, we'll need to make **another POST request in our main.js file** to send an object containing the user's phone numbers and restaurant location to our new HTTP trigger.
+​Similar to how we sent an object containing form information to dineTrigger, we'll need to make **another POST request in our main.js file** to send an object containing the user's phone numbers and restaurant location ({phone1, phone2, address, name}) to our new HTTP trigger.
 
 ### 3. Text both users the address of the restaurant they select
 
