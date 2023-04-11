@@ -271,8 +271,7 @@ module.exports = async function (context, req) {
 1.  [Create a static web app](https://docs.microsoft.com/en-us/azure/static-web-apps/getting-started?tabs=vanilla-javascript) in the Azure Portal and add the workflow to the master branch of the GitHub repo you are currently working in
 2.  Grab a friend and try a new restaurant with Dine the Distance!
 
-Here's a link to try out my version: https://calm-moss-0d1a6c110.azurestaticapps.net/ \
-Additionally, feel free to take a look at my [Github repo](https://github.com/a-padman/Dine2)!
+Feel free to take a look at my [Github repo](https://github.com/a-padman/Dine2)!
 
 <!-- title page gif -->
 
